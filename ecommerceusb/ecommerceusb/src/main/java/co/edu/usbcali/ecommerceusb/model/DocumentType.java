@@ -1,26 +1,33 @@
 package co.edu.usbcali.ecommerceusb.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
-
+@Entity
+@Table(name = "document_types")
 public class DocumentType {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false, unique = true)
     private String code;
+
+    @Column(nullable = false)
     private String name;
-    private Timestamp createAt;
 
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = OffsetDateTime.now();
+    }
 }
-
-
-
