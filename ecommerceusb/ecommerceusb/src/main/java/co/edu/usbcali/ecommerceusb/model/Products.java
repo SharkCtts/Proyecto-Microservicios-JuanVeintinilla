@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 
 
-public class Product {
+public class Products {
 
     private Integer id;
     private String name;

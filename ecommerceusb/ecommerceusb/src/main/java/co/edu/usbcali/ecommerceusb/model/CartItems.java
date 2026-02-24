@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 
 
-public class CartItem {
+public class CartItems {
 
     private Integer id;
     private Integer cartId;

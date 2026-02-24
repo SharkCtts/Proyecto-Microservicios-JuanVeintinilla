@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 
 
-public class Order {
+public class Orders {
 
     private Integer id;
     private Integer userId;

@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 
 
-public class Category {
+public class Categories {
 
     private Integer id;
     private String name;
