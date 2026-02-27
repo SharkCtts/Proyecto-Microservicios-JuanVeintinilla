@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 
 
-public class Cart {
+public class Carts {
 
     private Integer id;
     private Integer userId;

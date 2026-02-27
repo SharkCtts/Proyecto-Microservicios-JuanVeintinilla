@@ -1,29 +1,41 @@
 package co.edu.usbcali.ecommerceusb.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import jakarta.persistence.*; // Importar anotaciones JPA
-import java.sql.Timestamp;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product_category")
-
+@Table(
+        name = "product_categories",
+        indexes = {
+                @Index(name = "idx_product_categories_category",
+                        columnList = "category_id, product_id")
+        }
+)
 public class ProductCategories {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // crea llave primaria tipo serial/autoincremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "product_id", nullable = false)
-    private Integer productId;
+    // 🔹 FK hacia products
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "product_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_pc_product")
+    )
+    private Products product;
 
-    @Column(name = "category_id", nullable = false)
-    private Integer categoryId;
+    // 🔹 FK hacia categories
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "category_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_pc_category")
+    )
+    private Categories category;
 }
