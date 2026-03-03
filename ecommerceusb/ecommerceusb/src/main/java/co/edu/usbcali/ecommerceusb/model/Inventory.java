@@ -23,8 +23,11 @@ public class Inventory {
     @MapsId
     @JoinColumn(
             name = "product_id",
-            foreignKey = @ForeignKey(name = "fk_inventory_product")
-    )
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_inventory_product"),
+            referencedColumnName = "id"
+
+            )
     private Products product;
 
     @Column(nullable = false)

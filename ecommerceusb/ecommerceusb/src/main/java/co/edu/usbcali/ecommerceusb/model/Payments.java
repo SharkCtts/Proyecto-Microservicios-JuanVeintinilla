@@ -23,6 +23,8 @@ public class Payments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
     private Integer id;
 
     // 🔹 FK → orders (NOT NULL, ON DELETE RESTRICT)
@@ -30,7 +32,9 @@ public class Payments {
     @JoinColumn(
             name = "order_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_payments_order")
+            foreignKey = @ForeignKey(name = "fk_payments_order"),
+            referencedColumnName = "id"
+
     )
     private Orders order;
 

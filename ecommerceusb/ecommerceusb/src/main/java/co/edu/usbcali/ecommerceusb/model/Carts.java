@@ -20,6 +20,8 @@ public class Carts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
     private Integer id;
 
     // 🔹 Relación ManyToOne con users
@@ -27,7 +29,8 @@ public class Carts {
     @JoinColumn(
             name = "user_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_carts_user")
+            foreignKey = @ForeignKey(name = "fk_carts_user"),
+            referencedColumnName = "id"
     )
     private Users user;
 

@@ -27,6 +27,7 @@ public class CartItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     // 🔹 FK a carts (ON DELETE CASCADE)
@@ -34,8 +35,10 @@ public class CartItems {
     @JoinColumn(
             name = "cart_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_cart_items_cart")
-    )
+            foreignKey = @ForeignKey(name = "fk_cart_items_cart"),
+            referencedColumnName = "id"
+
+            )
     private Carts cart;
 
     // 🔹 FK a products (ON DELETE RESTRICT)
@@ -43,8 +46,10 @@ public class CartItems {
     @JoinColumn(
             name = "product_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_cart_items_product")
-    )
+            foreignKey = @ForeignKey(name = "fk_cart_items_product"),
+            referencedColumnName = "id"
+
+            )
     private Products product;
 
     @Column(nullable = false)

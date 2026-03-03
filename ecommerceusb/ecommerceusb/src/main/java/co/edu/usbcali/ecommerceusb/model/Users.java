@@ -28,6 +28,8 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
     private Integer id;
 
     @Column(name = "full_name", nullable = false)
@@ -44,7 +46,9 @@ public class Users {
     @JoinColumn(
             name = "document_type_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_users_document_type")
+            foreignKey = @ForeignKey(name = "fk_users_document_type"),
+            referencedColumnName = "id"
+
     )
     private DocumentType documentType;
 

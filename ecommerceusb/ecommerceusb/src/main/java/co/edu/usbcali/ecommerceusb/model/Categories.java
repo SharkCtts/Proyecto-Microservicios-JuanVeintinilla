@@ -16,6 +16,8 @@ public class Categories {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
     private Integer id;
 
     @Column(nullable = false)
@@ -25,8 +27,11 @@ public class Categories {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "parent_id",
-            foreignKey = @ForeignKey(name = "fk_categories_parent")
-    )
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_categories_parent"),
+            referencedColumnName = "id"
+
+            )
     private Categories parent;
 
     // 🔹 Relación inversa (hijos)

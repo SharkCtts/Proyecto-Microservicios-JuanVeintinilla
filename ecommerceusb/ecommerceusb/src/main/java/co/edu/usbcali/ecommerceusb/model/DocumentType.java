@@ -15,6 +15,8 @@ public class DocumentType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
     private Integer id;
 
     @Column(nullable = false, unique = true)

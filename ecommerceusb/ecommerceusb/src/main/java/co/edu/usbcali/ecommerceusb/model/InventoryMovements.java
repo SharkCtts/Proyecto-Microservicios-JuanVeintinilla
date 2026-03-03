@@ -21,6 +21,8 @@ public class InventoryMovements {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
     private Integer id;
 
     // 🔹 FK → products (NOT NULL, ON DELETE RESTRICT)
@@ -28,15 +30,20 @@ public class InventoryMovements {
     @JoinColumn(
             name = "product_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_inv_mov_product")
-    )
+            foreignKey = @ForeignKey(name = "fk_inv_mov_product"),
+            referencedColumnName = "id"
+
+            )
     private Products product;
 
     // 🔹 FK → orders (nullable, ON DELETE SET NULL)
     @ManyToOne
     @JoinColumn(
             name = "order_id",
-            foreignKey = @ForeignKey(name = "fk_inv_mov_order")
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_inv_mov_order"),
+            referencedColumnName = "id"
+
     )
     private Orders order;
 

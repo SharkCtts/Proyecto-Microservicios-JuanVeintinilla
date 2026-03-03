@@ -27,6 +27,8 @@ public class OrderItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
     private Integer id;
 
     // 🔹 FK a orders (ON DELETE CASCADE)
@@ -34,7 +36,9 @@ public class OrderItems {
     @JoinColumn(
             name = "order_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_order_items_order")
+            foreignKey = @ForeignKey(name = "fk_order_items_order"),
+            referencedColumnName = "id"
+
     )
     private Orders order;
 
@@ -43,7 +47,9 @@ public class OrderItems {
     @JoinColumn(
             name = "product_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_order_items_product")
+            foreignKey = @ForeignKey(name = "fk_order_items_product"),
+            referencedColumnName = "id"
+
     )
     private Products product;
 

@@ -19,6 +19,8 @@ public class ProductCategories {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+
     private Integer id;
 
     // 🔹 FK hacia products
@@ -26,7 +28,9 @@ public class ProductCategories {
     @JoinColumn(
             name = "product_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_pc_product")
+            foreignKey = @ForeignKey(name = "fk_pc_product"),
+            referencedColumnName = "id"
+
     )
     private Products product;
 
@@ -35,7 +39,9 @@ public class ProductCategories {
     @JoinColumn(
             name = "category_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_pc_category")
+            foreignKey = @ForeignKey(name = "fk_pc_category"),
+            referencedColumnName = "id"
+
     )
     private Categories category;
 }
