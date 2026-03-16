@@ -1,18 +1,16 @@
 package co.edu.usbcali.ecommerceusb.controller;
 
-
+import co.edu.usbcali.ecommerceusb.repository.DocumentTypeRepository;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
 public class DocumentTypeController {
 
-// inyección de dependencias por contructor
+    private final DocumentTypeRepository documentTypeRepository;
 
-// inyeccion de dependencias por autowired
-
-// diferencias entre cada uno y cual es más optimo
-
-// Capa service para qué sirve en springboot
+    // Inyección por constructor
+    public DocumentTypeController(DocumentTypeRepository documentTypeRepository) {
+        this.documentTypeRepository = documentTypeRepository;
+    }
 
 }
