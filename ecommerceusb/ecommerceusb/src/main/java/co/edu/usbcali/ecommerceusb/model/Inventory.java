@@ -38,15 +38,11 @@ public class Inventory {
 
     @PrePersist
     @PreUpdate
-    public void updateTimestamp() {
-        this.updatedAt = OffsetDateTime.now();
-    }
-
-    @PrePersist
-    @PreUpdate
-    public void validateStock() {
+    public void beforeSave() {
         if (stock < 0) {
             throw new IllegalArgumentException("El stock no puede ser negativo");
         }
+
+        this.updatedAt = OffsetDateTime.now();
     }
 }

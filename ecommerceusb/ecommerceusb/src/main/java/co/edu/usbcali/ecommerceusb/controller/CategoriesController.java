@@ -1,3 +1,5 @@
+/*
+
 package co.edu.usbcali.ecommerceusb.controller;
 
 import co.edu.usbcali.ecommerceusb.repository.CategoriesRepository;
@@ -15,3 +17,5 @@ public class CategoriesController {
 
 }
 
+
+ */
