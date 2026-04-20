@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DocumentTypeMapper {
 
-    public static DocumentTypeResponse modelToDocumenTypeResponse(DocumentType documentType) {
+    public static DocumentTypeResponse modelToDocumentTypeResponse(DocumentType documentType) {
         return DocumentTypeResponse.builder()
                 .id(documentType.getId())
                 .code(documentType.getCode())
@@ -25,7 +25,7 @@ public class DocumentTypeMapper {
         List<DocumentTypeResponse> documentTypeResponseList = new ArrayList<>();
 
         for (DocumentType documentType : documentTypes){
-            DocumentTypeResponse documentTypeResponse = modelToDocumenTypeResponse(documentType);
+            DocumentTypeResponse documentTypeResponse = modelToDocumentTypeResponse(documentType);
             documentTypeResponseList.add(documentTypeResponse);
         }
 
