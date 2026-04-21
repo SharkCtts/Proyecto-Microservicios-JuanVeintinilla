@@ -20,7 +20,6 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     public List<DocumentTypeResponse> getAllDocumentTypes() {
 
         List<DocumentType> documentTypes = documentTypeRepository.findAll();
-
         if (documentTypes.isEmpty()) {
             return List.of();
         }
