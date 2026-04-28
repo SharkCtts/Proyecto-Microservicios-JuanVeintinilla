@@ -3,6 +3,8 @@ package co.edu.usbcali.ecommerceusb.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.OffsetDateTime;
+
 @Builder
 @Getter
 public class UserResponse {
@@ -19,5 +21,8 @@ public class UserResponse {
     private Integer documentTypeId;
     private String documentTypeName;
     private String documentNumber;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
+
 
 }

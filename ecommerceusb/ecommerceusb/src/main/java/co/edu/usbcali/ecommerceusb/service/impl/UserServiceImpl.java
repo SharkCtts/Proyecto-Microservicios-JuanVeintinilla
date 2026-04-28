@@ -84,6 +84,11 @@ public class UserServiceImpl implements UserService {
         return UserMapper.modelToUserResponse(userByEmail);
     }
 
+    //ESTE METODO SIRVE PARA CREAR UN USUARIO
+    // @param createUserRequest
+    // @return
+    // @throws
+
     @Override
     public UserResponse createUser(CreateUserRequest createUserRequest) throws Exception {
 
@@ -168,6 +173,7 @@ public class UserServiceImpl implements UserService {
         DocumentType documentType = documentTypeRepository.findById(createUserRequest.getDocumentTypeId())
                 .orElseThrow(() -> new Exception("El tipo de documento no existe"));
 
+        /*
         // Convertir el objeto createUserRequest a User
         Users users = Users.builder()
                 .fullName(createUserRequest.getFullName())
@@ -183,10 +189,20 @@ public class UserServiceImpl implements UserService {
                 .country(createUserRequest.getCountry())
                 .address(createUserRequest.getAddress())
                 .build();
+*/
 
+        //Mapear User
+        Users user = UserMapper.createUserRequestToUser(createUserRequest, documentType);
+
+        Users savedUser = userRepository.save(user);
+
+        return UserMapper.modelToUserResponse(savedUser);
+
+        /*
         users = userRepository.save(users);
+        UserResponse userResponse = userMapper.modelToUserResponse(user);
+        return userResponse;
+*/
 
-
-        return null;
     }
 }
