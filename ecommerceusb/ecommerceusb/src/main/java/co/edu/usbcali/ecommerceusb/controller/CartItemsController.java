@@ -1,21 +1,42 @@
-/*
-
 package co.edu.usbcali.ecommerceusb.controller;
 
-import co.edu.usbcali.ecommerceusb.repository.CartItemsRepository;
-import org.springframework.web.bind.annotation.RestController;
+import co.edu.usbcali.ecommerceusb.dto.CartItemResponse;
+import co.edu.usbcali.ecommerceusb.dto.CreateCartItemRequest;
+import co.edu.usbcali.ecommerceusb.service.CartItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/cart-items")
 public class CartItemsController {
 
-    private final CartItemsRepository cartItemsRepository;
+    @Autowired
+    private CartItemService service;
 
-    // Inyección por constructor
-    public CartItemsController(CartItemsRepository cartItemsRepository) {
-        this.cartItemsRepository = cartItemsRepository;
+    @GetMapping("/all")
+    public List<CartItemResponse> getAll() {
+        return service.getAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CartItemResponse> getById(@PathVariable Integer id) throws Exception {
+        return new ResponseEntity<>(
+                service.getById(id),
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<CartItemResponse> addItem(
+            @RequestBody CreateCartItemRequest request
+    ) throws Exception {
+        return new ResponseEntity<>(
+                service.addItem(request),
+                HttpStatus.CREATED
+        );
+    }
 }
-
-
- */

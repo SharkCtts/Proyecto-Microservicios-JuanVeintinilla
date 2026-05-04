@@ -1,21 +1,42 @@
-/*
-
 package co.edu.usbcali.ecommerceusb.controller;
 
-import co.edu.usbcali.ecommerceusb.repository.OrdersRepository;
-import org.springframework.web.bind.annotation.RestController;
+import co.edu.usbcali.ecommerceusb.dto.CreateOrderRequest;
+import co.edu.usbcali.ecommerceusb.dto.OrderResponse;
+import co.edu.usbcali.ecommerceusb.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/orders")
 public class OrdersController {
 
-    private final OrdersRepository ordersRepository;
+    @Autowired
+    private OrderService service;
 
-    // Inyección por constructor
-    public OrdersController(OrdersRepository ordersRepository) {
-        this.ordersRepository = ordersRepository;
+    @GetMapping("/all")
+    public List<OrderResponse> getAll() {
+        return service.getAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> getById(@PathVariable Integer id) throws Exception {
+        return new ResponseEntity<>(
+                service.getById(id),
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<OrderResponse> create(
+            @RequestBody CreateOrderRequest request
+    ) throws Exception {
+        return new ResponseEntity<>(
+                service.create(request),
+                HttpStatus.CREATED
+        );
+    }
 }
-
-
- */

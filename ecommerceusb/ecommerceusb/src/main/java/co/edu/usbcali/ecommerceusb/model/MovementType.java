@@ -4,5 +4,5 @@ public enum MovementType {
     DEBIT,
     CREDIT,
     RESERVE,
-    RELEASE
+    IN, RELEASE
 }

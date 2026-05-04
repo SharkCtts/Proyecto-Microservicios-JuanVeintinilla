@@ -1,21 +1,42 @@
-/*
-
 package co.edu.usbcali.ecommerceusb.controller;
 
-import co.edu.usbcali.ecommerceusb.repository.InventoryRepository;
-import org.springframework.web.bind.annotation.RestController;
+import co.edu.usbcali.ecommerceusb.dto.CreateInventoryRequest;
+import co.edu.usbcali.ecommerceusb.dto.InventoryResponse;
+import co.edu.usbcali.ecommerceusb.service.InventoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/inventory")
 public class InventoryController {
 
-    private final InventoryRepository inventoryRepository;
+    @Autowired
+    private InventoryService service;
 
-    // Inyección por constructor
-    public InventoryController(InventoryRepository inventoryRepository) {
-        this.inventoryRepository = inventoryRepository;
+    @GetMapping("/all")
+    public List<InventoryResponse> getAll() {
+        return service.getAll();
     }
 
+    @GetMapping("/{productId}")
+    public ResponseEntity<InventoryResponse> getByProductId(@PathVariable Integer productId) throws Exception {
+        return new ResponseEntity<>(
+                service.getByProductId(productId),
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<InventoryResponse> create(
+            @RequestBody CreateInventoryRequest request
+    ) throws Exception {
+        return new ResponseEntity<>(
+                service.create(request),
+                HttpStatus.CREATED
+        );
+    }
 }
-
-
- */

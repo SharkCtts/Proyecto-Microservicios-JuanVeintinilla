@@ -1,21 +1,42 @@
-/*
-
 package co.edu.usbcali.ecommerceusb.controller;
 
-import co.edu.usbcali.ecommerceusb.repository.CategoriesRepository;
-import org.springframework.web.bind.annotation.RestController;
+import co.edu.usbcali.ecommerceusb.dto.CategoryResponse;
+import co.edu.usbcali.ecommerceusb.dto.CreateCategoryRequest;
+import co.edu.usbcali.ecommerceusb.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/categories")
 public class CategoriesController {
 
-    private final CategoriesRepository categoriesRepository;
+    @Autowired
+    private CategoryService service;
 
-    // Inyección por constructor
-    public CategoriesController(CategoriesRepository categoriesRepository) {
-        this.categoriesRepository = categoriesRepository;
+    @GetMapping("/all")
+    public List<CategoryResponse> getAll() {
+        return service.getAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryResponse> getById(@PathVariable Integer id) throws Exception {
+        return new ResponseEntity<>(
+                service.getById(id),
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<CategoryResponse> create(
+            @RequestBody CreateCategoryRequest request
+    ) throws Exception {
+        return new ResponseEntity<>(
+                service.create(request),
+                HttpStatus.CREATED
+        );
+    }
 }
-
-
- */

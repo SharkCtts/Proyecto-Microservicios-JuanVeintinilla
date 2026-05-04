@@ -1,3 +1,4 @@
+/*
 package co.edu.usbcali.ecommerceusb.controller;
 
 import co.edu.usbcali.ecommerceusb.repository.PaymentsRepository;
@@ -11,3 +12,5 @@ public class PaymentsController {
     private PaymentsRepository paymentsRepository;
 
 }
+
+ */
