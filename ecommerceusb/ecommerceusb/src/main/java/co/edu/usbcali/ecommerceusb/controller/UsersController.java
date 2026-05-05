@@ -46,6 +46,19 @@ public class UsersController {
                 HttpStatus.CREATED);
     }
 
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> updateUser(
+            @PathVariable Integer id,
+            @RequestBody CreateUserRequest request) throws Exception {
+
+        return new ResponseEntity<>(
+                userService.updateUser(id, request),
+                HttpStatus.OK
+        );
+    }
+
+
 }
 
 

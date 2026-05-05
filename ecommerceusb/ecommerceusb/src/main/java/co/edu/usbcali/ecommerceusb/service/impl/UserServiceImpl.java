@@ -205,4 +205,54 @@ public class UserServiceImpl implements UserService {
 */
 
     }
+
+
+// -------------- AQUI ESTÁ EL PUT ---------------
+
+    @Override
+    public UserResponse updateUser(Integer id, CreateUserRequest request) throws Exception {
+
+        // 🔹 Validar ID
+        if (id == null) {
+            throw new Exception("El id es obligatorio");
+        }
+
+        // 🔹 Buscar usuario existente
+        Users user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Usuario no encontrado con id: " + id));
+
+        // 🔹 Validaciones básicas (puedes reutilizar las del create si quieres)
+        if (request.getFullName() == null || request.getFullName().isBlank()) {
+            throw new Exception("El nombre no puede ser vacío");
+        }
+
+        if (request.getEmail() == null || request.getEmail().isBlank()) {
+            throw new Exception("El email no puede ser vacío");
+        }
+
+        // 🔹 Validar DocumentType
+        DocumentType documentType = documentTypeRepository
+                .findById(request.getDocumentTypeId())
+                .orElseThrow(() -> new Exception("DocumentType no existe"));
+
+        // 🔹 ACTUALIZAR CAMPOS
+        user.setFullName(request.getFullName());
+        user.setPhone(request.getPhone());
+        user.setEmail(request.getEmail());
+        user.setDocumentType(documentType);
+        user.setDocumentNumber(request.getDocumentNumber());
+        user.setBirthDate(
+                LocalDate.parse(request.getBirthDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        );
+        user.setCountry(request.getCountry());
+        user.setAddress(request.getAddress());
+
+        // 🔹 Guardar (esto hace UPDATE automáticamente)
+        Users updatedUser = userRepository.save(user);
+
+        return UserMapper.modelToUserResponse(updatedUser);
+    }
+
+
 }

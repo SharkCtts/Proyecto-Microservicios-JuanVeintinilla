@@ -11,4 +11,8 @@ public interface UserService {
     UserResponse getUserByEmail (String email) throws Exception;
 
     UserResponse createUser (CreateUserRequest createUserRequest) throws Exception;
+
+    // Metodo para el put en user
+    UserResponse updateUser(Integer id, CreateUserRequest request) throws Exception;
+
 }
