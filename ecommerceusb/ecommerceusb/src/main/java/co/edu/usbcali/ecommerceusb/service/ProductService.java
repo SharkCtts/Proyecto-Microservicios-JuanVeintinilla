@@ -12,4 +12,9 @@ public interface ProductService {
     ProductResponse getProductById(Integer id) throws Exception;
 
     ProductResponse createProduct(CreateProductRequest request) throws Exception;
+
+    //PUT PARA PRODUCT
+
+    ProductResponse updateProduct(Integer id, CreateProductRequest request) throws Exception;
+
 }

@@ -73,4 +73,55 @@ public class ProductServiceImpl implements ProductService {
         // Retornar
         return ProductMapper.modelToResponse(saved);
     }
+
+    //metodo para el PUT de Productos
+
+    @Override
+    public ProductResponse updateProduct(Integer id, CreateProductRequest request) throws Exception {
+
+        // 🔹 Validar ID
+        if (id == null) {
+            throw new Exception("El id es obligatorio");
+        }
+
+        // 🔹 Buscar producto existente
+        Products product = productsRepository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Producto no encontrado con id: " + id)
+                );
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("El request no puede ser null");
+        }
+
+        if (Objects.isNull(request.getName()) || request.getName().isBlank()) {
+            throw new Exception("El nombre es obligatorio");
+        }
+
+        if (Objects.isNull(request.getPrice())) {
+            throw new Exception("El precio es obligatorio");
+        }
+
+        if (request.getPrice().doubleValue() <= 0) {
+            throw new Exception("El precio debe ser mayor a 0");
+        }
+
+        // 🔹 ACTUALIZAR CAMPOS
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+
+        // 🔥 Manejo de available (detalle importante)
+        if (request.getAvailable() != null) {
+            product.setAvailable(request.getAvailable());
+        }
+
+        // 🔹 Guardar (esto hace UPDATE)
+        Products updatedProduct = productsRepository.save(product);
+
+        // 🔹 Retornar response
+        return ProductMapper.modelToResponse(updatedProduct);
+    }
+
 }

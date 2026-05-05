@@ -87,4 +87,70 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
         return ProductCategoryMapper.modelToResponse(saved);
     }
+
+    //para hacer el put
+
+    @Override
+    public ProductCategoryResponse update(Integer id, CreateProductCategoryRequest request) throws Exception {
+
+        // 🔹 Validar ID
+        if (id == null) {
+            throw new Exception("El id es obligatorio");
+        }
+
+        // 🔹 Buscar relación existente
+        ProductCategories pc = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Relación no encontrada con id: " + id)
+                );
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("El request no puede ser null");
+        }
+
+        if (request.getProductId() == null || request.getProductId() <= 0) {
+            throw new Exception("productId inválido");
+        }
+
+        if (request.getCategoryId() == null || request.getCategoryId() <= 0) {
+            throw new Exception("categoryId inválido");
+        }
+
+        // 🔹 Buscar nuevas relaciones (FK)
+        Products product = productsRepository.findById(request.getProductId())
+                .orElseThrow(() -> new Exception("Producto no existe"));
+
+        Categories category = categoriesRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new Exception("Categoría no existe"));
+
+        // 🔥 OPCIONAL PERO PRO: evitar actualización innecesaria
+        if (pc.getProduct().getId().equals(product.getId()) &&
+                pc.getCategory().getId().equals(category.getId())) {
+
+            throw new Exception("La relación ya tiene esos mismos valores");
+        }
+
+        // 🔥 OPCIONAL (MUY IMPORTANTE SI TU BD NO LO CONTROLA)
+        // Evitar duplicados (misma combinación product + category)
+        boolean exists = repository.existsByProductIdAndCategoryId(
+                request.getProductId(),
+                request.getCategoryId()
+        );
+
+        if (exists) {
+            throw new Exception("Ya existe una relación con ese producto y categoría");
+        }
+
+        // 🔹 ACTUALIZAR RELACIÓN
+        pc.setProduct(product);
+        pc.setCategory(category);
+
+        // 🔹 Guardar
+        ProductCategories updated = repository.save(pc);
+
+        // 🔹 Retornar
+        return ProductCategoryMapper.modelToResponse(updated);
+    }
+
 }

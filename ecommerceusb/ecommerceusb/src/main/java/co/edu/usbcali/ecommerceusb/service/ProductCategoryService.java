@@ -12,4 +12,8 @@ public interface ProductCategoryService {
     ProductCategoryResponse getById(Integer id) throws Exception;
 
     ProductCategoryResponse create(CreateProductCategoryRequest request) throws Exception;
+
+// PARA HACER EL PUT
+
+    ProductCategoryResponse update(Integer id, CreateProductCategoryRequest request) throws Exception;
 }

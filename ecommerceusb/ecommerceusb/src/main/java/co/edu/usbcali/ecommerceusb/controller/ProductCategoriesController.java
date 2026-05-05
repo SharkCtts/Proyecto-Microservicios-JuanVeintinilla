@@ -39,4 +39,19 @@ public class ProductCategoriesController {
                 HttpStatus.CREATED
         );
     }
+
+    //PUT
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductCategoryResponse> update(
+            @PathVariable Integer id,
+            @RequestBody CreateProductCategoryRequest request
+    ) throws Exception {
+
+        return new ResponseEntity<>(
+                service.update(id, request),
+                HttpStatus.OK
+        );
+    }
+
 }
