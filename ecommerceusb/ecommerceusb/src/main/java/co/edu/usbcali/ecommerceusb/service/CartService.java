@@ -12,4 +12,9 @@ public interface CartService {
     CartResponse getById(Integer id) throws Exception;
 
     CartResponse create(CreateCartRequest request) throws Exception;
+
+    //PUT
+
+    CartResponse update(Integer id, CreateCartRequest request) throws Exception;
+
 }

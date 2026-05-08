@@ -39,4 +39,16 @@ public class InventoryController {
                 HttpStatus.CREATED
         );
     }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<InventoryResponse> update(
+            @PathVariable Integer productId,
+            @RequestBody CreateInventoryRequest request
+    ) throws Exception {
+
+        return new ResponseEntity<>(
+                service.update(productId, request),
+                HttpStatus.OK
+        );
+    }
 }

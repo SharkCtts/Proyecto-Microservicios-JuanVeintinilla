@@ -84,4 +84,55 @@ public class InventoryServiceImpl implements InventoryService {
 
         return InventoryMapper.modelToResponse(saved);
     }
+
+    //METODO PARA PUT
+
+    @Override
+    public InventoryResponse update(
+            Integer productId,
+            CreateInventoryRequest request
+    ) throws Exception {
+
+        // 🔹 Validar ID
+        if (productId == null || productId <= 0) {
+            throw new Exception("productId inválido");
+        }
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("El request no puede ser null");
+        }
+
+        // 🔹 Buscar inventario existente
+        Inventory inventory = repository.findById(productId)
+                .orElseThrow(() ->
+                        new Exception("Inventario no encontrado para productId: " + productId)
+                );
+
+        // 🔹 Actualizar producto si viene
+        if (request.getProductId() != null) {
+
+            Products product = productsRepository.findById(request.getProductId())
+                    .orElseThrow(() ->
+                            new Exception("El producto no existe")
+                    );
+
+            inventory.setProduct(product);
+        }
+
+        // 🔹 Actualizar stock si viene
+        if (request.getStock() != null) {
+
+            if (request.getStock() < 0) {
+                throw new Exception("Stock inválido");
+            }
+
+            inventory.setStock(request.getStock());
+        }
+
+        // 🔹 Guardar cambios
+        Inventory updated = repository.save(inventory);
+
+        return InventoryMapper.modelToResponse(updated);
+    }
 }

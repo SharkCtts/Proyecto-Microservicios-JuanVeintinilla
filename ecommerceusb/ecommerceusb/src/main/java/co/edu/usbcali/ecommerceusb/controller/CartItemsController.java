@@ -39,4 +39,17 @@ public class CartItemsController {
                 HttpStatus.CREATED
         );
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CartItemResponse> update(
+            @PathVariable Integer id,
+            @RequestBody CreateCartItemRequest request
+    ) throws Exception {
+
+        return new ResponseEntity<>(
+                service.update(id, request),
+                HttpStatus.OK
+        );
+    }
+
 }

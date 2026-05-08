@@ -12,4 +12,12 @@ public interface InventoryMovementService {
     InventoryMovementResponse getById(Integer id) throws Exception;
 
     InventoryMovementResponse create(CreateInventoryMovementRequest request) throws Exception;
+
+    //PUT
+
+    InventoryMovementResponse update(
+            Integer id,
+            CreateInventoryMovementRequest request
+    ) throws Exception;
+
 }

@@ -39,4 +39,17 @@ public class PaymentsController {
                 HttpStatus.CREATED
         );
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PaymentResponse> update(
+            @PathVariable Integer id,
+            @RequestBody CreatePaymentRequest request
+    ) throws Exception {
+
+        return new ResponseEntity<>(
+                service.update(id, request),
+                HttpStatus.OK
+        );
+    }
+
 }

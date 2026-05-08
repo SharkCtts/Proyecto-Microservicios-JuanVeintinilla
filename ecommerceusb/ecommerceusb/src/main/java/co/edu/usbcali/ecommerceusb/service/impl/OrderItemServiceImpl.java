@@ -93,4 +93,77 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         return OrderItemMapper.modelToResponse(saved);
     }
+
+    // FUNCION PARA EL PUT
+
+    @Override
+    public OrderItemResponse update(Integer id, CreateOrderItemRequest request) throws Exception {
+
+        // 🔹 Validar ID
+        if (id == null) {
+            throw new Exception("El id es obligatorio");
+        }
+
+        // 🔹 Buscar OrderItem existente
+        OrderItems item = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("OrderItem no encontrado con id: " + id)
+                );
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("El request no puede ser null");
+        }
+
+        if (request.getOrderId() == null || request.getOrderId() <= 0) {
+            throw new Exception("orderId inválido");
+        }
+
+        if (request.getProductId() == null || request.getProductId() <= 0) {
+            throw new Exception("productId inválido");
+        }
+
+        if (request.getQuantity() == null || request.getQuantity() <= 0) {
+            throw new Exception("Cantidad inválida");
+        }
+
+        // 🔹 Buscar relaciones
+        Orders order = ordersRepository.findById(request.getOrderId())
+                .orElseThrow(() ->
+                        new Exception("La orden no existe")
+                );
+
+        Products product = productsRepository.findById(request.getProductId())
+                .orElseThrow(() ->
+                        new Exception("El producto no existe")
+                );
+
+        // 🔥 VALIDAR DUPLICADO order-product
+        boolean exists = repository.findAll().stream()
+                .anyMatch(oi ->
+                        !oi.getId().equals(id) &&
+                                oi.getOrder().getId().equals(request.getOrderId()) &&
+                                oi.getProduct().getId().equals(request.getProductId())
+                );
+
+        if (exists) {
+            throw new Exception("Ya existe ese producto en la orden");
+        }
+
+        // 🔹 Actualizar datos
+        item.setOrder(order);
+        item.setProduct(product);
+        item.setQuantity(request.getQuantity());
+
+        // 🔥 IMPORTANTE:
+        // NO actualizar unitPriceSnapshot
+        // porque representa el precio histórico
+
+        // 🔹 Guardar
+        OrderItems updated = repository.save(item);
+
+        // 🔹 Retornar
+        return OrderItemMapper.modelToResponse(updated);
+    }
+
 }

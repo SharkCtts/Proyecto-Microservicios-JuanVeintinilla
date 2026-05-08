@@ -39,4 +39,17 @@ public class InventoryMovementsController {
                 HttpStatus.CREATED
         );
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<InventoryMovementResponse> update(
+            @PathVariable Integer id,
+            @RequestBody CreateInventoryMovementRequest request
+    ) throws Exception {
+
+        return new ResponseEntity<>(
+                service.update(id, request),
+                HttpStatus.OK
+        );
+    }
+
 }

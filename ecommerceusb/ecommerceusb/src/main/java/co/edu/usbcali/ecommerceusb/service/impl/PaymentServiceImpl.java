@@ -93,4 +93,72 @@ public class PaymentServiceImpl implements PaymentService {
 
         return PaymentMapper.modelToResponse(saved);
     }
+
+    //Funcion de put
+
+    @Override
+    public PaymentResponse update(Integer id, CreatePaymentRequest request) throws Exception {
+
+        // 🔹 Validar ID
+        if (id == null) {
+            throw new Exception("El id es obligatorio");
+        }
+
+        // 🔹 Buscar pago existente
+        Payments payment = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Pago no encontrado con id: " + id)
+                );
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("El request no puede ser null");
+        }
+
+        if (request.getOrderId() == null || request.getOrderId() <= 0) {
+            throw new Exception("orderId inválido");
+        }
+
+        if (request.getStatus() == null) {
+            throw new Exception("El status es obligatorio");
+        }
+
+        if (request.getIdempotencyKey() == null ||
+                request.getIdempotencyKey().isBlank()) {
+
+            throw new Exception("idempotencyKey obligatorio");
+        }
+
+        // 🔥 VALIDAR DUPLICADO DE IDEMPOTENCY KEY
+        if (!payment.getIdempotencyKey().equals(request.getIdempotencyKey())) {
+
+            boolean exists = repository.findAll().stream()
+                    .anyMatch(p ->
+                            p.getIdempotencyKey().equals(request.getIdempotencyKey())
+                    );
+
+            if (exists) {
+                throw new Exception("Ya existe un pago con ese idempotencyKey");
+            }
+        }
+
+        // 🔹 Buscar Order
+        Orders order = ordersRepository.findById(request.getOrderId())
+                .orElseThrow(() ->
+                        new Exception("La orden no existe")
+                );
+
+        // 🔹 ACTUALIZAR CAMPOS
+        payment.setOrder(order);
+        payment.setStatus(request.getStatus());
+        payment.setProviderRef(request.getProviderRef());
+        payment.setIdempotencyKey(request.getIdempotencyKey());
+
+        // 🔹 Guardar
+        Payments updated = repository.save(payment);
+
+        // 🔹 Retornar
+        return PaymentMapper.modelToResponse(updated);
+    }
+
 }

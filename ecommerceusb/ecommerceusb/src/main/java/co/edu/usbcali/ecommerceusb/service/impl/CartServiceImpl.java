@@ -87,4 +87,51 @@ public class CartServiceImpl implements CartService {
 
         return CartMapper.modelToResponse(saved);
     }
+
+    @Override
+    public CartResponse update(Integer id, CreateCartRequest request) throws Exception {
+
+        // 🔹 Validar id
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("Request null");
+        }
+
+        // 🔹 Buscar carrito existente
+        Carts cart = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Carrito no encontrado con id: " + id)
+                );
+
+        // 🔹 Actualizar usuario
+        if (request.getUserId() != null) {
+
+            if (request.getUserId() <= 0) {
+                throw new Exception("userId inválido");
+            }
+
+            Users user = usersRepository.findById(request.getUserId())
+                    .orElseThrow(() ->
+                            new Exception("Usuario no existe")
+                    );
+
+            cart.setUser(user);
+        }
+
+        // 🔹 Actualizar status
+        if (request.getStatus() != null) {
+            cart.setStatus(request.getStatus());
+        }
+
+        // 🔹 Guardar
+        Carts updated = repository.save(cart);
+
+        // 🔹 Retornar response
+        return CartMapper.modelToResponse(updated);
+    }
+
 }

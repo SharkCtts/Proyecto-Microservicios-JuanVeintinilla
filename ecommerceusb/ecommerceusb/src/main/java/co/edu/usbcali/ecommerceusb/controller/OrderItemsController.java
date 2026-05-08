@@ -39,4 +39,16 @@ public class OrderItemsController {
                 HttpStatus.CREATED
         );
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderItemResponse> update(
+            @PathVariable Integer id,
+            @RequestBody CreateOrderItemRequest request
+    ) throws Exception {
+
+        return new ResponseEntity<>(
+                service.update(id, request),
+                HttpStatus.OK
+        );
+    }
 }

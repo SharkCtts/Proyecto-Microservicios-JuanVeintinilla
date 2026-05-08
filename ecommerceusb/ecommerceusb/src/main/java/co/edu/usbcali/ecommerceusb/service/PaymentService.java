@@ -12,4 +12,9 @@ public interface PaymentService {
     PaymentResponse getById(Integer id) throws Exception;
 
     PaymentResponse create(CreatePaymentRequest request) throws Exception;
+
+    //Put para payment
+
+    PaymentResponse update(Integer id, CreatePaymentRequest request) throws Exception;
+
 }

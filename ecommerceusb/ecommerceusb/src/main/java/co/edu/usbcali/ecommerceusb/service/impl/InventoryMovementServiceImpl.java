@@ -121,4 +121,72 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
 
         return InventoryMovementMapper.modelToResponse(saved);
     }
+
+    //FUNCION PARA EL PUT
+
+    @Override
+    public InventoryMovementResponse update(
+            Integer id,
+            CreateInventoryMovementRequest request
+    ) throws Exception {
+
+        // 🔹 Validar ID
+        if (id == null || id <= 0) {
+            throw new Exception("id inválido");
+        }
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("Request null");
+        }
+
+        // 🔹 Buscar movimiento existente
+        InventoryMovements movement = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Movimiento no encontrado con id: " + id)
+                );
+
+        // 🔹 Actualizar producto
+        if (request.getProductId() != null) {
+
+            Products product = productsRepository.findById(request.getProductId())
+                    .orElseThrow(() ->
+                            new Exception("Producto no existe")
+                    );
+
+            movement.setProduct(product);
+        }
+
+        // 🔹 Actualizar orden
+        if (request.getOrderId() != null) {
+
+            Orders order = ordersRepository.findById(request.getOrderId())
+                    .orElseThrow(() ->
+                            new Exception("Orden no existe")
+                    );
+
+            movement.setOrder(order);
+        }
+
+        // 🔹 Actualizar type
+        if (request.getType() != null) {
+            movement.setType(request.getType());
+        }
+
+        // 🔹 Actualizar qty
+        if (request.getQty() != null) {
+
+            if (request.getQty() <= 0) {
+                throw new Exception("qty inválido");
+            }
+
+            movement.setQty(request.getQty());
+        }
+
+        // 🔹 Guardar cambios
+        InventoryMovements updated = repository.save(movement);
+
+        return InventoryMovementMapper.modelToResponse(updated);
+    }
+
 }

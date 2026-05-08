@@ -39,4 +39,17 @@ public class CategoriesController {
                 HttpStatus.CREATED
         );
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryResponse> update(
+            @PathVariable Integer id,
+            @RequestBody CreateCategoryRequest request
+    ) throws Exception {
+
+        return new ResponseEntity<>(
+                service.update(id, request),
+                HttpStatus.OK
+        );
+    }
+
 }

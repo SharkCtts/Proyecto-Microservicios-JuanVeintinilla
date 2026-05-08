@@ -12,4 +12,9 @@ public interface OrderService {
     OrderResponse getById(Integer id) throws Exception;
 
     OrderResponse create(CreateOrderRequest request) throws Exception;
+
+    //Put
+
+    OrderResponse update(Integer id, CreateOrderRequest request) throws Exception;
+
 }

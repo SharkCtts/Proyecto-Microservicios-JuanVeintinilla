@@ -12,4 +12,12 @@ public interface InventoryService {
     InventoryResponse getByProductId(Integer productId) throws Exception;
 
     InventoryResponse create(CreateInventoryRequest request) throws Exception;
+
+    //put
+
+    InventoryResponse update(
+            Integer productId,
+            CreateInventoryRequest request
+    ) throws Exception;
+
 }

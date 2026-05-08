@@ -12,4 +12,9 @@ public interface CategoryService {
     CategoryResponse getById(Integer id) throws Exception;
 
     CategoryResponse create(CreateCategoryRequest request) throws Exception;
+
+    //PUT
+
+    CategoryResponse update(Integer id, CreateCategoryRequest request) throws Exception;
+
 }

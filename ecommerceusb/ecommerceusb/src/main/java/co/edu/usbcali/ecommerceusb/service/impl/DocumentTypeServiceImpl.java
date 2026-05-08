@@ -4,6 +4,7 @@ import co.edu.usbcali.ecommerceusb.dto.DocumentTypeResponse;
 import co.edu.usbcali.ecommerceusb.mapper.DocumentTypeMapper;
 import co.edu.usbcali.ecommerceusb.model.DocumentType;
 import co.edu.usbcali.ecommerceusb.repository.DocumentTypeRepository;
+import co.edu.usbcali.ecommerceusb.dto.CreateDocumentTypeRequest;
 import co.edu.usbcali.ecommerceusb.service.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,4 +59,56 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
 
         return DocumentTypeMapper.modelToDocumentTypeResponse(documentType);
     }
+
+    //METODO PARA EL PUT
+
+    @Override
+    public DocumentTypeResponse update(
+            Integer id,
+            CreateDocumentTypeRequest request
+    ) throws Exception {
+
+        // 🔹 Validar ID
+        if (id == null || id <= 0) {
+            throw new Exception("Id inválido");
+        }
+
+        // 🔹 Validar request
+        if (request == null) {
+            throw new Exception("El request no puede ser null");
+        }
+
+        // 🔹 Buscar document type
+        DocumentType documentType = documentTypeRepository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Tipo de documento no encontrado con id: " + id)
+                );
+
+        // 🔹 Actualizar code
+        if (request.getCode() != null && !request.getCode().isBlank()) {
+
+            boolean exists = documentTypeRepository.findAll().stream()
+                    .anyMatch(dt ->
+                            dt.getCode().equalsIgnoreCase(request.getCode())
+                                    && !dt.getId().equals(id)
+                    );
+
+            if (exists) {
+                throw new Exception("Ya existe un tipo de documento con ese código");
+            }
+
+            documentType.setCode(request.getCode());
+        }
+
+        // 🔹 Actualizar name
+        if (request.getName() != null && !request.getName().isBlank()) {
+            documentType.setName(request.getName());
+        }
+
+        // 🔹 Guardar cambios
+        DocumentType updated = documentTypeRepository.save(documentType);
+
+        return DocumentTypeMapper.modelToDocumentTypeResponse(updated);
+    }
+
 }

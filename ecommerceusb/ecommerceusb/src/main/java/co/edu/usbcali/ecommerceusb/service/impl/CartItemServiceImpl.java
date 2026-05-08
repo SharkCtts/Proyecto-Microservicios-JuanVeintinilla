@@ -106,4 +106,78 @@ public class CartItemServiceImpl implements CartItemService {
 
         return CartItemMapper.modelToResponse(saved);
     }
+
+    //METODO PARA EL PUT
+
+    @Override
+    public CartItemResponse update(Integer id, CreateCartItemRequest request) throws Exception {
+
+        // 🔹 Validar id
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("Request null");
+        }
+
+        // 🔹 Buscar item existente
+        CartItems item = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("CartItem no encontrado con id: " + id)
+                );
+
+        // 🔹 Actualizar carrito
+        if (request.getCartId() != null) {
+
+            if (request.getCartId() <= 0) {
+                throw new Exception("cartId inválido");
+            }
+
+            Carts cart = cartsRepository.findById(request.getCartId())
+                    .orElseThrow(() ->
+                            new Exception("Carrito no existe")
+                    );
+
+            // 🔥 Validar carrito activo
+            if (cart.getStatus() != CartStatus.ACTIVE) {
+                throw new Exception("El carrito no está activo");
+            }
+
+            item.setCart(cart);
+        }
+
+        // 🔹 Actualizar producto
+        if (request.getProductId() != null) {
+
+            if (request.getProductId() <= 0) {
+                throw new Exception("productId inválido");
+            }
+
+            Products product = productsRepository.findById(request.getProductId())
+                    .orElseThrow(() ->
+                            new Exception("Producto no existe")
+                    );
+
+            item.setProduct(product);
+        }
+
+        // 🔹 Actualizar cantidad
+        if (request.getQuantity() != null) {
+
+            if (request.getQuantity() <= 0) {
+                throw new Exception("quantity inválida");
+            }
+
+            item.setQuantity(request.getQuantity());
+        }
+
+        // 🔹 Guardar
+        CartItems updated = repository.save(item);
+
+        // 🔹 Retornar response
+        return CartItemMapper.modelToResponse(updated);
+    }
+
 }

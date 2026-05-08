@@ -74,4 +74,54 @@ public class CategoryServiceImpl implements CategoryService {
 
         return CategoryMapper.modelToResponse(saved);
     }
+
+    //METODO PARA EL PUT
+
+    @Override
+    public CategoryResponse update(Integer id, CreateCategoryRequest request) throws Exception {
+
+        // 🔹 Validar id
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        // 🔹 Validar request
+        if (Objects.isNull(request)) {
+            throw new Exception("Request null");
+        }
+
+        // 🔹 Buscar categoría existente
+        Categories category = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Categoría no encontrada con id: " + id)
+                );
+
+        // 🔹 Actualizar name
+        if (request.getName() != null && !request.getName().isBlank()) {
+            category.setName(request.getName());
+        }
+
+        // 🔹 Actualizar parent
+        if (request.getParentId() != null) {
+
+            // evitar que sea padre de sí misma
+            if (request.getParentId().equals(id)) {
+                throw new Exception("Una categoría no puede ser padre de sí misma");
+            }
+
+            Categories parent = repository.findById(request.getParentId())
+                    .orElseThrow(() ->
+                            new Exception("Categoría padre no existe")
+                    );
+
+            category.setParent(parent);
+        }
+
+        // 🔹 Guardar
+        Categories updated = repository.save(category);
+
+        // 🔹 Retornar response
+        return CategoryMapper.modelToResponse(updated);
+    }
+
 }
