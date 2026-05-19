@@ -145,4 +145,20 @@ public class OrderServiceImpl implements OrderService {
         return OrderMapper.modelToResponse(updated);
     }
 
+    //DELETE
+    @Override
+    public void delete(Integer id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        Order order = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Orden no encontrada con id: " + id)
+                );
+
+        repository.delete(order);
+    }
+
 }

@@ -52,4 +52,15 @@ public class ProductsController {
         );
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Integer id) throws Exception {
+
+        productService.delete(id);
+
+        return new ResponseEntity<>(
+                "Registro eliminado correctamente",
+                HttpStatus.OK
+        );
+    }
+
 }

@@ -16,4 +16,7 @@ public interface ProductCategoryService {
 // PARA HACER EL PUT
 
     ProductCategoryResponse update(Integer id, CreateProductCategoryRequest request) throws Exception;
+
+    //Metodo Delete
+    void delete(Integer id) throws Exception;
 }

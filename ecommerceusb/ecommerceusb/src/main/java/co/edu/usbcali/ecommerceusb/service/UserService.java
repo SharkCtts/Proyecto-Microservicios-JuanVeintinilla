@@ -15,4 +15,7 @@ public interface UserService {
     // Metodo para el put en user
     UserResponse updateUser(Integer id, CreateUserRequest request) throws Exception;
 
+    //Metodo Delete
+    void delete(Integer id) throws Exception;
+
 }

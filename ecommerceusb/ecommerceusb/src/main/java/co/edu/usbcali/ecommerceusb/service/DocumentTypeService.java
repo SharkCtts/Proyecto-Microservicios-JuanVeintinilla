@@ -18,4 +18,6 @@ public interface DocumentTypeService {
             CreateDocumentTypeRequest request
     ) throws Exception;
 
+    //Metodo Delete
+    void delete(Integer id) throws Exception;
 }

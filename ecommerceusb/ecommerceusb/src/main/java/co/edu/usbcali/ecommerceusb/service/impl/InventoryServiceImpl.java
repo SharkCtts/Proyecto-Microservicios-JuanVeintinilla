@@ -135,4 +135,21 @@ public class InventoryServiceImpl implements InventoryService {
 
         return InventoryMapper.modelToResponse(updated);
     }
+
+    //DELETE
+    @Override
+    public void delete(Integer productId) throws Exception {
+
+        if (productId == null) {
+            throw new Exception("Debe ingresar el productId");
+        }
+
+        Inventory inventory = repository.findById(productId)
+                .orElseThrow(() ->
+                        new Exception("Inventario no encontrado para productId: " + productId)
+                );
+
+        repository.delete(inventory);
+    }
+
 }

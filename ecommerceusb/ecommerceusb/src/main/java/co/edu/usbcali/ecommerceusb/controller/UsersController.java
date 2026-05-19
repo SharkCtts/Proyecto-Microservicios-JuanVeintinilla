@@ -58,6 +58,16 @@ public class UsersController {
         );
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Integer id) throws Exception {
+
+        userService.delete(id);
+
+        return new ResponseEntity<>(
+                "Registro eliminado correctamente",
+                HttpStatus.OK
+        );
+    }
 
 }
 

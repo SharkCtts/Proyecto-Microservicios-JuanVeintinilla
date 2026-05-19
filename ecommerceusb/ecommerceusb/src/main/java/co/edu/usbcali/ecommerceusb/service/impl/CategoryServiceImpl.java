@@ -124,4 +124,20 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryMapper.modelToResponse(updated);
     }
 
+    //DELETE
+    @Override
+    public void delete(Integer id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        Categories category = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Categoría no encontrada con id: " + id)
+                );
+
+        repository.delete(category);
+    }
+
 }

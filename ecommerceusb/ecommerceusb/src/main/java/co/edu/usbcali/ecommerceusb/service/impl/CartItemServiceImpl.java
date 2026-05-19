@@ -180,4 +180,20 @@ public class CartItemServiceImpl implements CartItemService {
         return CartItemMapper.modelToResponse(updated);
     }
 
+    //DELETE
+    @Override
+    public void delete(Integer id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        CartItem item = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("CartItem no encontrado con id: " + id)
+                );
+
+        repository.delete(item);
+    }
+
 }

@@ -20,4 +20,6 @@ public interface InventoryMovementService {
             CreateInventoryMovementRequest request
     ) throws Exception;
 
+    //Metodo Delete
+    void delete(Integer id) throws Exception;
 }

@@ -166,4 +166,20 @@ public class OrderItemServiceImpl implements OrderItemService {
         return OrderItemMapper.modelToResponse(updated);
     }
 
+    //DELETE
+    @Override
+    public void delete(Integer id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        OrderItem item = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("OrderItem no encontrado con id: " + id)
+                );
+
+        repository.delete(item);
+    }
+
 }

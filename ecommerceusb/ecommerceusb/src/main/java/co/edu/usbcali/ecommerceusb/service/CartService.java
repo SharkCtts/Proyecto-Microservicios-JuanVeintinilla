@@ -17,4 +17,6 @@ public interface CartService {
 
     CartResponse update(Integer id, CreateCartRequest request) throws Exception;
 
+    //Metodo Delete
+    void delete(Integer id) throws Exception;
 }

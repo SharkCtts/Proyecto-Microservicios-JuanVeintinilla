@@ -6,6 +6,7 @@ import co.edu.usbcali.ecommerceusb.mapper.ProductCategoryMapper;
 import co.edu.usbcali.ecommerceusb.model.Categories;
 import co.edu.usbcali.ecommerceusb.model.ProductCategories;
 import co.edu.usbcali.ecommerceusb.model.Product;
+import co.edu.usbcali.ecommerceusb.model.User;
 import co.edu.usbcali.ecommerceusb.repository.CategoriesRepository;
 import co.edu.usbcali.ecommerceusb.repository.ProductCategoriesRepository;
 import co.edu.usbcali.ecommerceusb.repository.ProductsRepository;
@@ -151,6 +152,23 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
         // 🔹 Retornar
         return ProductCategoryMapper.modelToResponse(updated);
+    }
+
+    //DELETE
+    @Override
+    public void delete(Integer id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        ProductCategories productCategories = repository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Orden no encontrada con id: " + id)
+                );
+
+        repository.delete(productCategories);
+
     }
 
 }

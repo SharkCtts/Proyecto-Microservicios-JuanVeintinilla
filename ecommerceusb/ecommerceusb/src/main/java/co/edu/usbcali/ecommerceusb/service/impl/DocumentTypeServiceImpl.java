@@ -111,4 +111,20 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
         return DocumentTypeMapper.modelToDocumentTypeResponse(updated);
     }
 
+    //DELETE
+    @Override
+    public void delete(Integer id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        DocumentType documentType = documentTypeRepository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Tipo de documento no encontrado con id: " + id)
+                );
+
+        documentTypeRepository.delete(documentType);
+    }
+
 }

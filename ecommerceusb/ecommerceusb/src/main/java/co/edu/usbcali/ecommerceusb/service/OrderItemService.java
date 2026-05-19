@@ -16,4 +16,6 @@ public interface OrderItemService {
     //PUT
     OrderItemResponse update(Integer id, CreateOrderItemRequest request) throws Exception;
 
+    //Metodo Delete
+    void delete(Integer id) throws Exception;
 }

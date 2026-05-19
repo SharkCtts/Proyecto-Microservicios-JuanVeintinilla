@@ -4,6 +4,7 @@ import co.edu.usbcali.ecommerceusb.dto.CreateUserRequest;
 import co.edu.usbcali.ecommerceusb.dto.UserResponse;
 import co.edu.usbcali.ecommerceusb.mapper.UserMapper;
 import co.edu.usbcali.ecommerceusb.model.DocumentType;
+import co.edu.usbcali.ecommerceusb.model.Order;
 import co.edu.usbcali.ecommerceusb.model.User;
 import co.edu.usbcali.ecommerceusb.repository.DocumentTypeRepository;
 import co.edu.usbcali.ecommerceusb.repository.UsersRepository;
@@ -254,4 +255,20 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    //DELETE
+    @Override
+    public void delete(Integer id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Orden no encontrada con id: " + id)
+                );
+
+        userRepository.delete(user);
+
+    }
 }

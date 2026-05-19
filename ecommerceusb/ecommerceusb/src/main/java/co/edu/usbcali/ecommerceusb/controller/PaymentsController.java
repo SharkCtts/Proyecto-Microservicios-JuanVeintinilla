@@ -52,4 +52,14 @@ public class PaymentsController {
         );
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Integer id) throws Exception {
+
+        service.delete(id);
+
+        return new ResponseEntity<>(
+                "Registro eliminado correctamente",
+                HttpStatus.OK
+        );
+    }
 }

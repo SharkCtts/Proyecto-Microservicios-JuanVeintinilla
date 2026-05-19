@@ -17,4 +17,7 @@ public interface PaymentService {
 
     PaymentResponse update(Integer id, CreatePaymentRequest request) throws Exception;
 
+    //Metodo Delete
+    void delete(Integer id) throws Exception;
+
 }

@@ -4,6 +4,7 @@ import co.edu.usbcali.ecommerceusb.dto.CreateProductRequest;
 import co.edu.usbcali.ecommerceusb.dto.ProductResponse;
 import co.edu.usbcali.ecommerceusb.mapper.ProductMapper;
 import co.edu.usbcali.ecommerceusb.model.Product;
+import co.edu.usbcali.ecommerceusb.model.User;
 import co.edu.usbcali.ecommerceusb.repository.ProductsRepository;
 import co.edu.usbcali.ecommerceusb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,6 +123,23 @@ public class ProductServiceImpl implements ProductService {
 
         // 🔹 Retornar response
         return ProductMapper.modelToResponse(updatedProduct);
+    }
+
+    //DELETE
+    @Override
+    public void delete(Integer id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("Debe ingresar el id");
+        }
+
+        Product product = productsRepository.findById(id)
+                .orElseThrow(() ->
+                        new Exception("Orden no encontrada con id: " + id)
+                );
+
+        productsRepository.delete(product);
+
     }
 
 }
