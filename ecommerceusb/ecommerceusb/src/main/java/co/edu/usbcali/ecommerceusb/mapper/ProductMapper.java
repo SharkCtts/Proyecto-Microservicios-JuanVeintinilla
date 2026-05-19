@@ -2,13 +2,13 @@ package co.edu.usbcali.ecommerceusb.mapper;
 
 import co.edu.usbcali.ecommerceusb.dto.CreateProductRequest;
 import co.edu.usbcali.ecommerceusb.dto.ProductResponse;
-import co.edu.usbcali.ecommerceusb.model.Products;
+import co.edu.usbcali.ecommerceusb.model.Product;
 
 import java.util.List;
 
 public class ProductMapper {
 
-    public static ProductResponse modelToResponse(Products product) {
+    public static ProductResponse modelToResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -20,14 +20,14 @@ public class ProductMapper {
                 .build();
     }
 
-    public static List<ProductResponse> modelToResponseList(List<Products> products) {
+    public static List<ProductResponse> modelToResponseList(List<Product> products) {
         return products.stream()
                 .map(ProductMapper::modelToResponse)
                 .toList();
     }
 
-    public static Products requestToModel(CreateProductRequest request) {
-        return Products.builder()
+    public static Product requestToModel(CreateProductRequest request) {
+        return Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .price(request.getPrice())

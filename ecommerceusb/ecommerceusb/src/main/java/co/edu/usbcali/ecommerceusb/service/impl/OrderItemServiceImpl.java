@@ -3,9 +3,9 @@ package co.edu.usbcali.ecommerceusb.service.impl;
 import co.edu.usbcali.ecommerceusb.dto.CreateOrderItemRequest;
 import co.edu.usbcali.ecommerceusb.dto.OrderItemResponse;
 import co.edu.usbcali.ecommerceusb.mapper.OrderItemMapper;
-import co.edu.usbcali.ecommerceusb.model.OrderItems;
-import co.edu.usbcali.ecommerceusb.model.Orders;
-import co.edu.usbcali.ecommerceusb.model.Products;
+import co.edu.usbcali.ecommerceusb.model.OrderItem;
+import co.edu.usbcali.ecommerceusb.model.Order;
+import co.edu.usbcali.ecommerceusb.model.Product;
 import co.edu.usbcali.ecommerceusb.repository.OrderItemsRepository;
 import co.edu.usbcali.ecommerceusb.repository.OrdersRepository;
 import co.edu.usbcali.ecommerceusb.repository.ProductsRepository;
@@ -30,7 +30,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public List<OrderItemResponse> getAll() {
-        List<OrderItems> list = repository.findAll();
+        List<OrderItem> list = repository.findAll();
 
         if (list.isEmpty()) {
             return List.of();
@@ -46,7 +46,7 @@ public class OrderItemServiceImpl implements OrderItemService {
             throw new Exception("Debe ingresar el id");
         }
 
-        OrderItems item = repository.findById(id)
+        OrderItem item = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("OrderItem no encontrado con id: " + id)
                 );
@@ -75,21 +75,21 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
 
         // 🔹 Buscar relaciones
-        Orders order = ordersRepository.findById(request.getOrderId())
+        Order order = ordersRepository.findById(request.getOrderId())
                 .orElseThrow(() -> new Exception("La orden no existe"));
 
-        Products product = productsRepository.findById(request.getProductId())
+        Product product = productsRepository.findById(request.getProductId())
                 .orElseThrow(() -> new Exception("El producto no existe"));
 
         // 🔥 SNAPSHOT DEL PRECIO (esto es CLAVE)
-        OrderItems item = OrderItems.builder()
+        OrderItem item = OrderItem.builder()
                 .order(order)
                 .product(product)
                 .quantity(request.getQuantity())
                 .unitPriceSnapshot(product.getPrice()) // 🔥 importante
                 .build();
 
-        OrderItems saved = repository.save(item);
+        OrderItem saved = repository.save(item);
 
         return OrderItemMapper.modelToResponse(saved);
     }
@@ -105,7 +105,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
 
         // 🔹 Buscar OrderItem existente
-        OrderItems item = repository.findById(id)
+        OrderItem item = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("OrderItem no encontrado con id: " + id)
                 );
@@ -128,12 +128,12 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
 
         // 🔹 Buscar relaciones
-        Orders order = ordersRepository.findById(request.getOrderId())
+        Order order = ordersRepository.findById(request.getOrderId())
                 .orElseThrow(() ->
                         new Exception("La orden no existe")
                 );
 
-        Products product = productsRepository.findById(request.getProductId())
+        Product product = productsRepository.findById(request.getProductId())
                 .orElseThrow(() ->
                         new Exception("El producto no existe")
                 );
@@ -160,7 +160,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         // porque representa el precio histórico
 
         // 🔹 Guardar
-        OrderItems updated = repository.save(item);
+        OrderItem updated = repository.save(item);
 
         // 🔹 Retornar
         return OrderItemMapper.modelToResponse(updated);

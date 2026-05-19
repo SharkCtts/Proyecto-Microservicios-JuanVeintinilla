@@ -3,7 +3,7 @@ package co.edu.usbcali.ecommerceusb.service.impl;
 import co.edu.usbcali.ecommerceusb.dto.CreateProductRequest;
 import co.edu.usbcali.ecommerceusb.dto.ProductResponse;
 import co.edu.usbcali.ecommerceusb.mapper.ProductMapper;
-import co.edu.usbcali.ecommerceusb.model.Products;
+import co.edu.usbcali.ecommerceusb.model.Product;
 import co.edu.usbcali.ecommerceusb.repository.ProductsRepository;
 import co.edu.usbcali.ecommerceusb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getProducts() {
-        List<Products> products = productsRepository.findAll();
+        List<Product> products = productsRepository.findAll();
 
         if (products.isEmpty()) {
             return List.of();
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
             throw new Exception("Debe ingresar el id");
         }
 
-        Products product = productsRepository.findById(id)
+        Product product = productsRepository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Producto no encontrado con id: " + id)
                 );
@@ -65,10 +65,10 @@ public class ProductServiceImpl implements ProductService {
         }
 
         // Mapear
-        Products product = ProductMapper.requestToModel(request);
+        Product product = ProductMapper.requestToModel(request);
 
         // Guardar
-        Products saved = productsRepository.save(product);
+        Product saved = productsRepository.save(product);
 
         // Retornar
         return ProductMapper.modelToResponse(saved);
@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         // 🔹 Buscar producto existente
-        Products product = productsRepository.findById(id)
+        Product product = productsRepository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Producto no encontrado con id: " + id)
                 );
@@ -118,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         // 🔹 Guardar (esto hace UPDATE)
-        Products updatedProduct = productsRepository.save(product);
+        Product updatedProduct = productsRepository.save(product);
 
         // 🔹 Retornar response
         return ProductMapper.modelToResponse(updatedProduct);

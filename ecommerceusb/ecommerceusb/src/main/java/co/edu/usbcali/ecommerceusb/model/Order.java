@@ -19,7 +19,7 @@ import java.time.OffsetDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Orders {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Orders {
             referencedColumnName = "id"
 
     )
-    private Users user;
+    private User user;
 
     // 🔹 Enum para respetar CHECK
     @Enumerated(EnumType.STRING)

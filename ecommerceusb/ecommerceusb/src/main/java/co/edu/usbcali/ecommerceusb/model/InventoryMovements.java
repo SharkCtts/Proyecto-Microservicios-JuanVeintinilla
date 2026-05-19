@@ -34,7 +34,7 @@ public class InventoryMovements {
             referencedColumnName = "id"
 
             )
-    private Products product;
+    private Product product;
 
     // 🔹 FK → orders (nullable, ON DELETE SET NULL)
     @ManyToOne
@@ -45,7 +45,7 @@ public class InventoryMovements {
             referencedColumnName = "id"
 
     )
-    private Orders order;
+    private Order order;
 
     // 🔹 Enum para respetar CHECK constraint
     @Enumerated(EnumType.STRING)

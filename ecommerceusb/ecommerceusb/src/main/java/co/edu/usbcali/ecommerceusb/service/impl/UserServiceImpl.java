@@ -4,11 +4,10 @@ import co.edu.usbcali.ecommerceusb.dto.CreateUserRequest;
 import co.edu.usbcali.ecommerceusb.dto.UserResponse;
 import co.edu.usbcali.ecommerceusb.mapper.UserMapper;
 import co.edu.usbcali.ecommerceusb.model.DocumentType;
-import co.edu.usbcali.ecommerceusb.model.Users;
+import co.edu.usbcali.ecommerceusb.model.User;
 import co.edu.usbcali.ecommerceusb.repository.DocumentTypeRepository;
 import co.edu.usbcali.ecommerceusb.repository.UsersRepository;
 import co.edu.usbcali.ecommerceusb.service.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getUsers() {
         //definir una lista de Users
-        List<Users> users = userRepository.findAll();
+        List<User> users = userRepository.findAll();
 
         //validar si la lsita está vacía
         if (users.isEmpty()){
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
         }
         //Buscar usuario en base de datos por id
         //Si no lo encuentra, lanza excepción
-        Users users = userRepository.findById(id)
+        User users = userRepository.findById(id)
                 .orElseThrow(() ->
                         new Exception(
                                 String.format("Usuario no encontrado con el id: %d", id)
@@ -74,7 +73,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // Buscar usuario en base de datos por email
-        Users userByEmail = userRepository.findByEmail(email)
+        User userByEmail = userRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new Exception (
                                 String.format("usuario no entrado con el email: %s", email)));
@@ -192,9 +191,9 @@ public class UserServiceImpl implements UserService {
 */
 
         //Mapear User
-        Users user = UserMapper.createUserRequestToUser(createUserRequest, documentType);
+        User user = UserMapper.createUserRequestToUser(createUserRequest, documentType);
 
-        Users savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         return UserMapper.modelToUserResponse(savedUser);
 
@@ -218,7 +217,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // 🔹 Buscar usuario existente
-        Users user = userRepository.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Usuario no encontrado con id: " + id));
 
@@ -249,7 +248,7 @@ public class UserServiceImpl implements UserService {
         user.setAddress(request.getAddress());
 
         // 🔹 Guardar (esto hace UPDATE automáticamente)
-        Users updatedUser = userRepository.save(user);
+        User updatedUser = userRepository.save(user);
 
         return UserMapper.modelToUserResponse(updatedUser);
     }

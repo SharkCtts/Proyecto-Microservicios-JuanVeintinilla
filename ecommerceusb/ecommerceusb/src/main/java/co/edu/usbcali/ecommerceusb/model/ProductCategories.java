@@ -32,7 +32,7 @@ public class ProductCategories {
             referencedColumnName = "id"
 
     )
-    private Products product;
+    private Product product;
 
     // 🔹 FK hacia categories
     @ManyToOne(fetch = FetchType.LAZY)

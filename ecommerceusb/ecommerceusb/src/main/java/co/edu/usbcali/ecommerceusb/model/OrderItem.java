@@ -23,7 +23,7 @@ import java.time.OffsetDateTime;
                 @Index(name = "idx_order_items_order", columnList = "order_id")
         }
 )
-public class OrderItems {
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class OrderItems {
             referencedColumnName = "id"
 
     )
-    private Orders order;
+    private Order order;
 
     // 🔹 FK a products (ON DELETE RESTRICT)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -51,7 +51,7 @@ public class OrderItems {
             referencedColumnName = "id"
 
     )
-    private Products product;
+    private Product product;
 
     @Column(nullable = false)
     private Integer quantity;

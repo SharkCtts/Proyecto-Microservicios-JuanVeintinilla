@@ -17,6 +17,5 @@ public interface CartItemService {
 
     CartItemResponse update(Integer id, CreateCartItemRequest request) throws Exception;
 
-    
 
 }

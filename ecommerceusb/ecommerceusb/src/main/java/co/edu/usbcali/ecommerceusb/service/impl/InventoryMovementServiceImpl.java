@@ -77,11 +77,11 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
         }
 
         // 🔹 Buscar producto
-        Products product = productsRepository.findById(request.getProductId())
+        Product product = productsRepository.findById(request.getProductId())
                 .orElseThrow(() -> new Exception("Producto no existe"));
 
         // 🔹 Buscar orden (opcional)
-        Orders order = null;
+        Order order = null;
         if (request.getOrderId() != null) {
             order = ordersRepository.findById(request.getOrderId())
                     .orElseThrow(() -> new Exception("Orden no existe"));
@@ -149,7 +149,7 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
         // 🔹 Actualizar producto
         if (request.getProductId() != null) {
 
-            Products product = productsRepository.findById(request.getProductId())
+            Product product = productsRepository.findById(request.getProductId())
                     .orElseThrow(() ->
                             new Exception("Producto no existe")
                     );
@@ -160,7 +160,7 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
         // 🔹 Actualizar orden
         if (request.getOrderId() != null) {
 
-            Orders order = ordersRepository.findById(request.getOrderId())
+            Order order = ordersRepository.findById(request.getOrderId())
                     .orElseThrow(() ->
                             new Exception("Orden no existe")
                     );

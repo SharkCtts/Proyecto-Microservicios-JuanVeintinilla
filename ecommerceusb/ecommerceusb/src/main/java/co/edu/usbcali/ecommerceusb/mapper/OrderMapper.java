@@ -1,13 +1,13 @@
 package co.edu.usbcali.ecommerceusb.mapper;
 
 import co.edu.usbcali.ecommerceusb.dto.OrderResponse;
-import co.edu.usbcali.ecommerceusb.model.Orders;
+import co.edu.usbcali.ecommerceusb.model.Order;
 
 import java.util.List;
 
 public class OrderMapper {
 
-    public static OrderResponse modelToResponse(Orders order) {
+    public static OrderResponse modelToResponse(Order order) {
         return OrderResponse.builder()
                 .id(order.getId())
                 .userId(order.getUser() != null ? order.getUser().getId() : null)
@@ -20,7 +20,7 @@ public class OrderMapper {
                 .build();
     }
 
-    public static List<OrderResponse> modelToResponseList(List<Orders> list) {
+    public static List<OrderResponse> modelToResponseList(List<Order> list) {
         return list.stream()
                 .map(OrderMapper::modelToResponse)
                 .toList();

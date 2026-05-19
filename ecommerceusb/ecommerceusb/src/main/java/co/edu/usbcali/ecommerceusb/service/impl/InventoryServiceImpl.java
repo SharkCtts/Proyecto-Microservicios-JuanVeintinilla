@@ -4,7 +4,7 @@ import co.edu.usbcali.ecommerceusb.dto.CreateInventoryRequest;
 import co.edu.usbcali.ecommerceusb.dto.InventoryResponse;
 import co.edu.usbcali.ecommerceusb.mapper.InventoryMapper;
 import co.edu.usbcali.ecommerceusb.model.Inventory;
-import co.edu.usbcali.ecommerceusb.model.Products;
+import co.edu.usbcali.ecommerceusb.model.Product;
 import co.edu.usbcali.ecommerceusb.repository.InventoryRepository;
 import co.edu.usbcali.ecommerceusb.repository.ProductsRepository;
 import co.edu.usbcali.ecommerceusb.service.InventoryService;
@@ -66,7 +66,7 @@ public class InventoryServiceImpl implements InventoryService {
         }
 
         // 🔥 Validar que el producto existe
-        Products product = productsRepository.findById(request.getProductId())
+        Product product = productsRepository.findById(request.getProductId())
                 .orElseThrow(() -> new Exception("El producto no existe"));
 
         // 🔥 Validar que no exista inventario ya
@@ -112,7 +112,7 @@ public class InventoryServiceImpl implements InventoryService {
         // 🔹 Actualizar producto si viene
         if (request.getProductId() != null) {
 
-            Products product = productsRepository.findById(request.getProductId())
+            Product product = productsRepository.findById(request.getProductId())
                     .orElseThrow(() ->
                             new Exception("El producto no existe")
                     );

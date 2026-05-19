@@ -24,7 +24,7 @@ import java.time.OffsetDateTime;
                         columnList = "country")
         }
 )
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

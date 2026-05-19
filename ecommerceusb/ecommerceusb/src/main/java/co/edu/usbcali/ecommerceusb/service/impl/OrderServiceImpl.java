@@ -3,8 +3,8 @@ package co.edu.usbcali.ecommerceusb.service.impl;
 import co.edu.usbcali.ecommerceusb.dto.CreateOrderRequest;
 import co.edu.usbcali.ecommerceusb.dto.OrderResponse;
 import co.edu.usbcali.ecommerceusb.mapper.OrderMapper;
-import co.edu.usbcali.ecommerceusb.model.Orders;
-import co.edu.usbcali.ecommerceusb.model.Users;
+import co.edu.usbcali.ecommerceusb.model.Order;
+import co.edu.usbcali.ecommerceusb.model.User;
 import co.edu.usbcali.ecommerceusb.repository.OrdersRepository;
 import co.edu.usbcali.ecommerceusb.repository.UsersRepository;
 import co.edu.usbcali.ecommerceusb.service.OrderService;
@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResponse> getAll() {
-        List<Orders> list = repository.findAll();
+        List<Order> list = repository.findAll();
 
         if (list.isEmpty()) {
             return List.of();
@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
             throw new Exception("Debe ingresar el id");
         }
 
-        Orders order = repository.findById(id)
+        Order order = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Orden no encontrada con id: " + id)
                 );
@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 🔹 Buscar usuario
-        Users user = usersRepository.findById(request.getUserId())
+        User user = usersRepository.findById(request.getUserId())
                 .orElseThrow(() -> new Exception("El usuario no existe"));
 
         // 🔹 Validar total
@@ -76,13 +76,13 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 🔹 Crear orden
-        Orders order = Orders.builder()
+        Order order = Order.builder()
                 .user(user)
                 .totalAmount(total)
                 .currency(request.getCurrency() != null ? request.getCurrency() : "COP")
                 .build();
 
-        Orders saved = repository.save(order);
+        Order saved = repository.save(order);
 
         return OrderMapper.modelToResponse(saved);
     }
@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 🔹 Buscar orden
-        Orders order = repository.findById(id)
+        Order order = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Orden no encontrada con id: " + id)
                 );
@@ -113,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 🔹 Buscar usuario
-        Users user = usersRepository.findById(request.getUserId())
+        User user = usersRepository.findById(request.getUserId())
                 .orElseThrow(() ->
                         new Exception("El usuario no existe")
                 );
@@ -139,7 +139,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCurrency(currency);
 
         // 🔹 Guardar
-        Orders updated = repository.save(order);
+        Order updated = repository.save(order);
 
         // 🔹 Retornar
         return OrderMapper.modelToResponse(updated);

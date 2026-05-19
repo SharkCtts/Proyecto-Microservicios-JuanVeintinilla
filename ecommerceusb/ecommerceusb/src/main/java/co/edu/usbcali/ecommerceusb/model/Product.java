@@ -18,7 +18,7 @@ import java.time.OffsetDateTime;
                 @Index(name = "idx_products_price", columnList = "price")
         }
 )
-public class Products {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

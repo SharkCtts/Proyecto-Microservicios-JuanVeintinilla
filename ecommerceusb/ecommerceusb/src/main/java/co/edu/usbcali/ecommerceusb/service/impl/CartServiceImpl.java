@@ -3,9 +3,9 @@ package co.edu.usbcali.ecommerceusb.service.impl;
 import co.edu.usbcali.ecommerceusb.dto.CartResponse;
 import co.edu.usbcali.ecommerceusb.dto.CreateCartRequest;
 import co.edu.usbcali.ecommerceusb.mapper.CartMapper;
-import co.edu.usbcali.ecommerceusb.model.Carts;
+import co.edu.usbcali.ecommerceusb.model.Cart;
 import co.edu.usbcali.ecommerceusb.model.CartStatus;
-import co.edu.usbcali.ecommerceusb.model.Users;
+import co.edu.usbcali.ecommerceusb.model.User;
 import co.edu.usbcali.ecommerceusb.repository.CartsRepository;
 import co.edu.usbcali.ecommerceusb.repository.UsersRepository;
 import co.edu.usbcali.ecommerceusb.service.CartService;
@@ -26,7 +26,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<CartResponse> getAll() {
-        List<Carts> list = repository.findAll();
+        List<Cart> list = repository.findAll();
 
         if (list.isEmpty()) {
             return List.of();
@@ -42,7 +42,7 @@ public class CartServiceImpl implements CartService {
             throw new Exception("Debe ingresar el id");
         }
 
-        Carts cart = repository.findById(id)
+        Cart cart = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Carrito no encontrado con id: " + id)
                 );
@@ -63,7 +63,7 @@ public class CartServiceImpl implements CartService {
         }
 
         // 🔹 Buscar usuario
-        Users user = usersRepository.findById(request.getUserId())
+        User user = usersRepository.findById(request.getUserId())
                 .orElseThrow(() -> new Exception("Usuario no existe"));
 
         // 🔥 OPCIONAL PRO: evitar múltiples carritos activos
@@ -78,12 +78,12 @@ public class CartServiceImpl implements CartService {
         */
 
         // 🔹 Crear carrito
-        Carts cart = Carts.builder()
+        Cart cart = Cart.builder()
                 .user(user)
                 .status(request.getStatus() != null ? request.getStatus() : CartStatus.ACTIVE)
                 .build();
 
-        Carts saved = repository.save(cart);
+        Cart saved = repository.save(cart);
 
         return CartMapper.modelToResponse(saved);
     }
@@ -102,7 +102,7 @@ public class CartServiceImpl implements CartService {
         }
 
         // 🔹 Buscar carrito existente
-        Carts cart = repository.findById(id)
+        Cart cart = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Carrito no encontrado con id: " + id)
                 );
@@ -114,7 +114,7 @@ public class CartServiceImpl implements CartService {
                 throw new Exception("userId inválido");
             }
 
-            Users user = usersRepository.findById(request.getUserId())
+            User user = usersRepository.findById(request.getUserId())
                     .orElseThrow(() ->
                             new Exception("Usuario no existe")
                     );
@@ -128,7 +128,7 @@ public class CartServiceImpl implements CartService {
         }
 
         // 🔹 Guardar
-        Carts updated = repository.save(cart);
+        Cart updated = repository.save(cart);
 
         // 🔹 Retornar response
         return CartMapper.modelToResponse(updated);

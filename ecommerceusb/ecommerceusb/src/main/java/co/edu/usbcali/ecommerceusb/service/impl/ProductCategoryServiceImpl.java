@@ -5,7 +5,7 @@ import co.edu.usbcali.ecommerceusb.dto.ProductCategoryResponse;
 import co.edu.usbcali.ecommerceusb.mapper.ProductCategoryMapper;
 import co.edu.usbcali.ecommerceusb.model.Categories;
 import co.edu.usbcali.ecommerceusb.model.ProductCategories;
-import co.edu.usbcali.ecommerceusb.model.Products;
+import co.edu.usbcali.ecommerceusb.model.Product;
 import co.edu.usbcali.ecommerceusb.repository.CategoriesRepository;
 import co.edu.usbcali.ecommerceusb.repository.ProductCategoriesRepository;
 import co.edu.usbcali.ecommerceusb.repository.ProductsRepository;
@@ -71,7 +71,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         }
 
         // Buscar relaciones
-        Products product = productsRepository.findById(request.getProductId())
+        Product product = productsRepository.findById(request.getProductId())
                 .orElseThrow(() -> new Exception("Producto no existe"));
 
         Categories category = categoriesRepository.findById(request.getCategoryId())
@@ -118,7 +118,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         }
 
         // 🔹 Buscar nuevas relaciones (FK)
-        Products product = productsRepository.findById(request.getProductId())
+        Product product = productsRepository.findById(request.getProductId())
                 .orElseThrow(() -> new Exception("Producto no existe"));
 
         Categories category = categoriesRepository.findById(request.getCategoryId())

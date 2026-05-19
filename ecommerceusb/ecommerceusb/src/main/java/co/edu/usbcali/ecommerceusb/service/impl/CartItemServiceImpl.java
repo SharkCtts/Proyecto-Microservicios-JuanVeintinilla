@@ -26,7 +26,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public List<CartItemResponse> getAll() {
-        List<CartItems> list = repository.findAll();
+        List<CartItem> list = repository.findAll();
 
         if (list.isEmpty()) {
             return List.of();
@@ -42,7 +42,7 @@ public class CartItemServiceImpl implements CartItemService {
             throw new Exception("Debe ingresar el id");
         }
 
-        CartItems item = repository.findById(id)
+        CartItem item = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("CartItem no encontrado con id: " + id)
                 );
@@ -71,7 +71,7 @@ public class CartItemServiceImpl implements CartItemService {
         }
 
         // 🔹 Buscar carrito
-        Carts cart = cartsRepository.findById(request.getCartId())
+        Cart cart = cartsRepository.findById(request.getCartId())
                 .orElseThrow(() -> new Exception("Carrito no existe"));
 
         // 🔹 Validar estado del carrito
@@ -80,29 +80,29 @@ public class CartItemServiceImpl implements CartItemService {
         }
 
         // 🔹 Buscar producto
-        Products product = productsRepository.findById(request.getProductId())
+        Product product = productsRepository.findById(request.getProductId())
                 .orElseThrow(() -> new Exception("Producto no existe"));
 
         // 🔥 Buscar si ya existe el item
-        CartItems existing = repository
+        CartItem existing = repository
                 .findByCartIdAndProductId(cart.getId(), product.getId())
                 .orElse(null);
 
         if (existing != null) {
             // 🔥 SUMAR cantidad
             existing.setQuantity(existing.getQuantity() + request.getQuantity());
-            CartItems updated = repository.save(existing);
+            CartItem updated = repository.save(existing);
             return CartItemMapper.modelToResponse(updated);
         }
 
         // 🔹 Crear nuevo item
-        CartItems item = CartItems.builder()
+        CartItem item = CartItem.builder()
                 .cart(cart)
                 .product(product)
                 .quantity(request.getQuantity())
                 .build();
 
-        CartItems saved = repository.save(item);
+        CartItem saved = repository.save(item);
 
         return CartItemMapper.modelToResponse(saved);
     }
@@ -123,7 +123,7 @@ public class CartItemServiceImpl implements CartItemService {
         }
 
         // 🔹 Buscar item existente
-        CartItems item = repository.findById(id)
+        CartItem item = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("CartItem no encontrado con id: " + id)
                 );
@@ -135,7 +135,7 @@ public class CartItemServiceImpl implements CartItemService {
                 throw new Exception("cartId inválido");
             }
 
-            Carts cart = cartsRepository.findById(request.getCartId())
+            Cart cart = cartsRepository.findById(request.getCartId())
                     .orElseThrow(() ->
                             new Exception("Carrito no existe")
                     );
@@ -155,7 +155,7 @@ public class CartItemServiceImpl implements CartItemService {
                 throw new Exception("productId inválido");
             }
 
-            Products product = productsRepository.findById(request.getProductId())
+            Product product = productsRepository.findById(request.getProductId())
                     .orElseThrow(() ->
                             new Exception("Producto no existe")
                     );
@@ -174,7 +174,7 @@ public class CartItemServiceImpl implements CartItemService {
         }
 
         // 🔹 Guardar
-        CartItems updated = repository.save(item);
+        CartItem updated = repository.save(item);
 
         // 🔹 Retornar response
         return CartItemMapper.modelToResponse(updated);

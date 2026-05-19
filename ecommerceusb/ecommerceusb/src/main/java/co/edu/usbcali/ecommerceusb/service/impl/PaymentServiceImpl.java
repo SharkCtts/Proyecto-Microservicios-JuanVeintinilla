@@ -3,8 +3,8 @@ package co.edu.usbcali.ecommerceusb.service.impl;
 import co.edu.usbcali.ecommerceusb.dto.CreatePaymentRequest;
 import co.edu.usbcali.ecommerceusb.dto.PaymentResponse;
 import co.edu.usbcali.ecommerceusb.mapper.PaymentMapper;
-import co.edu.usbcali.ecommerceusb.model.Orders;
-import co.edu.usbcali.ecommerceusb.model.Payments;
+import co.edu.usbcali.ecommerceusb.model.Order;
+import co.edu.usbcali.ecommerceusb.model.Payment;
 import co.edu.usbcali.ecommerceusb.repository.OrdersRepository;
 import co.edu.usbcali.ecommerceusb.repository.PaymentsRepository;
 import co.edu.usbcali.ecommerceusb.service.PaymentService;
@@ -25,7 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentResponse> getAll() {
-        List<Payments> list = repository.findAll();
+        List<Payment> list = repository.findAll();
 
         if (list.isEmpty()) {
             return List.of();
@@ -41,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new Exception("Debe ingresar el id");
         }
 
-        Payments payment = repository.findById(id)
+        Payment payment = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Pago no encontrado con id: " + id)
                 );
@@ -78,18 +78,18 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         // 🔹 Buscar order
-        Orders order = ordersRepository.findById(request.getOrderId())
+        Order order = ordersRepository.findById(request.getOrderId())
                 .orElseThrow(() -> new Exception("La orden no existe"));
 
         // 🔹 Crear entidad
-        Payments payment = Payments.builder()
+        Payment payment = Payment.builder()
                 .order(order)
                 .status(request.getStatus())
                 .providerRef(request.getProviderRef())
                 .idempotencyKey(request.getIdempotencyKey())
                 .build();
 
-        Payments saved = repository.save(payment);
+        Payment saved = repository.save(payment);
 
         return PaymentMapper.modelToResponse(saved);
     }
@@ -105,7 +105,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         // 🔹 Buscar pago existente
-        Payments payment = repository.findById(id)
+        Payment payment = repository.findById(id)
                 .orElseThrow(() ->
                         new Exception("Pago no encontrado con id: " + id)
                 );
@@ -143,7 +143,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         // 🔹 Buscar Order
-        Orders order = ordersRepository.findById(request.getOrderId())
+        Order order = ordersRepository.findById(request.getOrderId())
                 .orElseThrow(() ->
                         new Exception("La orden no existe")
                 );
@@ -155,7 +155,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setIdempotencyKey(request.getIdempotencyKey());
 
         // 🔹 Guardar
-        Payments updated = repository.save(payment);
+        Payment updated = repository.save(payment);
 
         // 🔹 Retornar
         return PaymentMapper.modelToResponse(updated);

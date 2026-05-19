@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Carts {
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class Carts {
             foreignKey = @ForeignKey(name = "fk_carts_user"),
             referencedColumnName = "id"
     )
-    private Users user;
+    private User user;
 
     // 🔹 Enum para respetar el CHECK del SQL
     @Enumerated(EnumType.STRING)

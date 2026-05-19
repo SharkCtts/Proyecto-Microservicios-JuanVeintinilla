@@ -28,7 +28,7 @@ public class Inventory {
             referencedColumnName = "id"
 
             )
-    private Products product;
+    private Product product;
 
     @Column(nullable = false)
     private Integer stock = 0;
